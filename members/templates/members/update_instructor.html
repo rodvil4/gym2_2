@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Actualiza Instructor{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<h2>Actualiza Instructores</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <button type="submit">Actualizar </button>
+    <a href="{% url 'list_instructors' %}" class="btn btn-cancel">Cancelar</a>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateField = document.querySelector('input[name="fec_nac"]');
+        const dateValue = '{{ member.fec_nac|date:"Y-m-d" }}';
+        if (dateField && dateValue) {
+            dateField.value = dateValue;
+        }
+    });
+</script>
+
+{% endblock %}
+

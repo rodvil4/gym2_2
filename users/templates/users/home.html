@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Aplicacion{% endblock %}
+
+{% block content %}
+<p><h4>Bienvenido a nuestra página de inicio. <br><br> Aquí encontrarás información relevante sobre nuestros servicios y actividades. <br>
+    Nos esforzamos por ofrecer la mejor experiencia a nuestros usuarios. Explora nuestras opciones y descubre todo lo que tenemos para ofrecer. 
+    Si tienes alguna pregunta, no dudes en contactarnos.
+
+    {% load static %}
+
+<div class="gallery">
+    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+    <div class="slides">
+        <img src="{% static 'images/photo1.jpg' %}" alt="Photo 1">
+        <img src="{% static 'images/photo2.jpg' %}" alt="Photo 2">
+        <img src="{% static 'images/photo3.jpg' %}" alt="Photo 3">
+        <img src="{% static 'images/photo4.jpg' %}" alt="Photo 4">
+        <img src="{% static 'images/photo5.jpg' %}" alt="Photo 5">
+        <img src="{% static 'images/photo6.jpg' %}" alt="Photo 6">
+        <img src="{% static 'images/photo7.jpg' %}" alt="Photo 7">
+        <img src="{% static 'images/photo8.jpg' %}" alt="Photo 8">
+        <img src="{% static 'images/photo9.jpg' %}" alt="Photo 9">
+        <img src="{% static 'images/photo10.jpg' %}" alt="Photo 10">
+    </div>
+    <button class="next" onclick="moveSlide(1)">&#10095;</button>
+</div>
+
+<script>
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('.slides img');
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.style.display = (i === index) ? 'block' : 'none';
+        });
+    }
+
+    function moveSlide(step) {
+        slideIndex = (slideIndex + step + slides.length) % slides.length;
+        showSlide(slideIndex);
+    }
+
+    // Mostrar la primera imagen al cargar la página
+    showSlide(slideIndex);
+</script>
+{% endblock %}

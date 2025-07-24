@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirma Borrado{% endblock %}
+
+{% block content %}
+<h2>Confirma Borrado</h2>
+<p> ¿Estás Seguro de Borrar a {{ member.nombre }} {{ member.ap_pat }}?</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Adelante</button>
+    <a href="{% url 'list_members' %}">Cancelar</a>
+</form>
+{% endblock %}

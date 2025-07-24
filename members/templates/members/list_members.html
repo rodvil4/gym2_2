@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista Miembros{% endblock %}
+
+{% block content %}
+<h2>Listado de Miembros</h2>
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Nombre Completo</th>
+            <th>Género</th>
+            <th>Fec. Nac.</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+
+            <th>Pagos Registrados</th>
+            <th>Pagos Validados</th>
+            <th>Pagos Utililizados</th>
+            <th>Saldos Disponible </th>
+            
+            <th>Dirección</th>
+            <th>Activo</th>
+            <th>Fec. Reg.</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for member in members %}
+        <tr>
+            <td class="{% if not member.estatus %}rojo{% endif %}">{{ member.user }}</td>
+            <td>{{ member.nombre }} {{ member.ap_pat }} {{ member.ap_mat }}</td>
+            <td>{{ member.get_genero_display }}</td>
+            <td>{{ member.fec_nac }}</td>
+            <td>{{ member.telefono }}</td>
+            <td>{{ member.email }}</td>
+
+            <td>$ {{ member.pagos_real }}</td>
+            <td>$ {{ member.pagos_validado }}</td>
+            <td>$ {{ member.pagos_usados }}</td>
+            <td>$ {{ member.saldo }}</td>
+
+            
+            <td>{{ member.direccion }}</td>
+            <td class="{% if not member.estatus %}rojo{% endif %}">
+                    {% if member.estatus %}
+                    Sí
+                    {% else %}
+                    No
+                    {% endif %}
+
+            </td>
+            <td>{{ member.fec_reg }}</td>
+            <td>
+                <a href="{% url 'update_member_admin' member.id %}" class="btn btn-update">Actualiza</a>
+                <a href="{% url 'delete_member' member.id %}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this member?');">Borrar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+<td {% if not instructor.activo %}style="color: red;"{% endif %}>
+    {% if instructor.activo %}
+    Sí
+    {% else %}
+    No
+    {% endif %}
+

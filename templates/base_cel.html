@@ -1,0 +1,67 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi App{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .boton-inicio {
+        background-color: black;
+        color: white;
+        font-size: 1.2rem;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+        }
+        .boton-inicio.active {
+        font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <table width="98%">
+            <tr>
+                <td>
+                    <div class="header-left">
+                        <h3>Sistema Control Calendario</h3>
+                    </div>
+           
+                </td>
+                <td>
+                    <div class="header-right">
+                        <p>{{ user.username }}</p>
+                        <p id="date"></p>
+                        <p>&copy; RoDa</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </header>
+    <main class="main-container">
+        <div class="content">
+            <button>
+                <a href="{% url 'home' %}" class="boton-inicio {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Inicio</a>
+            </button>
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    <script>
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        const date = new Date();
+        const formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} - ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+        document.getElementById('date').innerText = formattedDate;
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+

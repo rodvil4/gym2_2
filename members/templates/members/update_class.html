@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Actualiza Clase{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<h2>Actualiza los datos de las clases</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit">Actualizar </button>
+    <a href="{% url 'list_classes' %}" class="btn btn-cancel">Cancelar</a>
+</form>
+
+{% endblock %}
+

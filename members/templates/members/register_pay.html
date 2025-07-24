@@ -1,0 +1,43 @@
+
+{% extends 'base_cel.html' %}
+
+{% block title %}Registra Pagos{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<h2>Registro Pagos de los Miembros</h2>
+
+    <table class="styled-table">
+        <thead>
+            <tr> 
+                <th>Descripcion </th>
+                <th>Fecha Pago</th>
+                <th>Importe Pago</th>
+                <th>RFC</th>
+                <th>Estatus</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pago in pagos %}
+            <tr>
+                <td>{{ pago.describe }}</td>
+                <td>{{ pago.fecha_pago }}</td>
+                <td>${{ pago.pago }}</td>
+                <td>{{ pago.rfc }}</td>
+                <td>{{ pago.get_genero_display }}</td>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form|crispy }}
+    <button type="submit">Registrar Pago</button>
+</form>
+
+
+{% endblock %}
+
+

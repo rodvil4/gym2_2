@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista Grupos{% endblock %}
+
+{% block content %}
+
+<h2>Listado de Grupos Disponibles</h2>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Grupo</th>
+            <th>Instructor</th>
+            <th>Modalidad</th>
+            <th>Costo</th>
+            <th>Precio Unitario</th>
+            <th>Mínimo</th>
+            <th>Máximo</th>
+            <th>Duración</th>
+            <th>Hora Inicio</th>
+            <th>Hora Termino</th>
+            <th>Fecha Inicia</th>
+            <th>Fecha Termina</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for group in groups %}
+        <tr>
+            <td class="{% if not group.estatus %}rojo{% endif %}">{{ group.grupo }}</td>
+            <td>{{ group.instructor }}</td>
+            <td>{{ group.get_modalidad_display }}</td>
+
+            <td>${{ group.costo }}</td>
+            <td>${{ group.preciounitario }}</td>
+            <td>{{ group.minimo }} personas</td>
+            <td>{{ group.maximo }} personas</td>
+            <td>{{ group.duracion }} min.</td>
+            <td>{{ group.horaInicio }}</td>
+            <td>{{ group.horaTermino }}</td>
+            <td>{{ group.fec_ini }}</td>
+            <td>{{ group.fec_fin }}</td>
+            <td class="{% if not group.estatus %}rojo{% endif %}" >
+                {% if group.estatus %}
+                Sí
+                {% else %}
+                No
+                {% endif %}
+
+            </td>
+            <td>
+                <a href="{% url 'update_group' group.id %}" class="btn btn-update">Actualiza</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'create_group' %}" class="{% if request.resolver_match.url_name == 'create_group' %}active{% endif %}">
+    <button type="submit" class="boton-negro">
+       Nuevo Grupo
+    </button>
+  </a>
+
+{% endblock %}
+          

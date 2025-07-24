@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Validación Pagos{% endblock %}
+
+{% block content %}
+
+<h2>Listado de Pagos de los Miembros </h2>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Miembro</th>
+            <th>Descripción</th>
+            <th>Fecha de Pago</th>
+            <th>Monto</th>
+            <th>RFC</th>
+            <th>Documento</th>
+            <th>Estatus</th>
+            <th>Fec. Registro</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pago in pagos %}
+        <tr>
+            <td>{{ pago.member }}</td>
+            <td>{{ pago.describe }}</td>
+            <td>{{ pago.fecha_pago }}</td>
+            <td>$ {{ pago.pago }}</td>
+            <td>{{ pago.RFC }}</td>
+            <td><a href="{{ pago.documento.url }}" target="_blank">Ver Documento</a></td>
+            </td>
+            <td>{{ pago.get_genero_display }}</td>
+            <td>{{ pago.fec_reg }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+  {% endblock %}

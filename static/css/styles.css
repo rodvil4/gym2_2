@@ -1,0 +1,291 @@
+/* Estilos generales */
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0f0f0f;
+    color: #fff;
+    padding: 10px 0;
+    border-bottom: 5px solid #dee2e6;
+}
+
+.header-left {
+    flex: 1;
+    margin-left: 15px; /* Añadir margen a la izquierda */
+}
+
+.header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 15px; /* Añadir margen a la derecha */
+}
+
+.header-right p {
+    margin: 0;
+}
+
+.main-container {
+    display: flex;
+    flex: 1;
+    max-width: 100%;
+    background-color: #fff;
+    padding: 15px;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #343a40;
+    color: white;
+    padding: 1rem;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 1rem;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 5px 10px;
+    background-color: #343a40;
+    border-radius: 5px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #495057;
+}
+
+.sidebar ul li a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.content {
+    flex: 1; /* Asegura que el contenido ocupe el espacio restante */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-left: 20px; /* Espacio entre el menú y el contenido */
+    overflow: auto; /* Asegura que el contenido adicional sea desplazable */
+}
+
+/* Estilo para formulario */
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input, form select, form textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form button {
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+form button:hover {
+    background-color: #555;
+}
+
+.boton-negro {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.rojo {
+    color: red;
+}
+
+.azul {
+    color: blue;
+}
+
+.btn-cancel {
+    padding: 10px;
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.btn-cancel:hover {
+    background-color: #aaa;
+}
+
+/* Estilos para la tabla */
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    min-width: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+.btn-update, .btn-delete {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 5px; /* Añadir margen entre los botones */
+}
+
+.btn-update {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-update:hover {
+    background-color: #45a049;
+}
+
+.btn-delete {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #e53935;
+}
+
+/* Estilos para la galería de fotos */
+
+.gallery {
+    position: relative;
+    max-width: 95%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slides img {
+    width: 90%;
+    max-height: 600px; /* Ajusta esta altura según tus necesidades */
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.form-container {
+    max-width: 600px;  /* Ajusta el tamaño máximo del contenedor */
+    margin: auto;  /* Centra el contenedor en la página */
+    padding: 20px;  /* Añade un poco de espacio alrededor del contenido */
+    border: 1px solid #ddd;  /* Añade un borde alrededor del contenedor */
+    border-radius: 8px;  /* Añade bordes redondeados */
+    background-color: #f9f9f9;  /* Establece un color de fondo claro */
+}
+
+.form-group {
+    margin-bottom: 15px;  /* Añade espacio inferior entre los grupos de formularios */
+}
+
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);  /* Fondo semitransparente */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.nav-button.prev {
+    left: 10px;  /* Ajusta la posición a la izquierda */
+}
+
+.nav-button.next {
+    right: 10px;  
+}
+
+
+.dias-semana-checkbox {
+    display: flex;
+    justify-content: space-evenly;  /* Espacio equidistante entre los checkboxes */
+    flex-wrap: wrap;  /* Para que se ajuste si hay más de los que caben */
+}
+
+.dias-semana-checkbox label {
+    margin-right: 15px; /* Añadir espacio entre los checkboxes */
+    display: inline-block;  /* Mantenerlos en línea */
+}
+

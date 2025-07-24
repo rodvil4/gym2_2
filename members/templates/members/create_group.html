@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Registra Grupos{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<h2>Registro de Grupos Disponibles</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit">Registrar</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        console.log("jQuery cargado correctamente");
+
+        // Verificar si el campo id_clase existe
+        if ($('#id_clase').length) {
+            console.log("Campo id_clase encontrado.");
+        } else {
+            console.error("El campo id_clase NO fue encontrado en el DOM.");
+        }
+
+        // Capturar cambio en el select de clase
+        $('#id_clase').change(function () {
+            var claseId = $(this).val();
+            console.log("Clase seleccionada:", claseId);
+
+            if (claseId) {
+                $.ajax({
+                    url: "/members/get_tclass_info/",  // Asegúrate de que la URL sea correcta
+                    data: { 'clase_id': claseId },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log("Respuesta AJAX recibida:", data);
+
+                        if (data.error) {
+                            console.error("Error en la respuesta del servidor:", data.error);
+                        } else {
+                            $('#id_minimo').val(data.minimo);
+                            $('#id_maximo').val(data.maximo);
+                            $('#id_duracion').val(data.duracion);
+                            console.log("Datos actualizados en los campos.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error en la petición AJAX:", xhr.responseText);
+                    }
+                });
+            }
+        });
+
+        // Calcular hora de término automáticamente
+        $('#id_horaInicio, #id_duracion').on('input', function () {
+            var horaInicio = $('#id_horaInicio').val();
+            var duracion = parseInt($('#id_duracion').val(), 10);
+
+            if (horaInicio && !isNaN(duracion)) {
+                var timeParts = horaInicio.split(':');
+                var horas = parseInt(timeParts[0], 10);
+                var minutos = parseInt(timeParts[1], 10);
+
+                var totalMinutos = horas * 60 + minutos + duracion;
+                var horaTerminoHoras = Math.floor(totalMinutos / 60);
+                var horaTerminoMinutos = totalMinutos % 60;
+
+                var horaTermino = ('0' + horaTerminoHoras).slice(-2) + ':' + ('0' + horaTerminoMinutos).slice(-2);
+                $('#id_horaTermino').val(horaTermino);
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,173 @@
+
+{% extends 'base_cel.html' %}
+
+{% block title %}Registra Inscripcion{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<h2>Registro Inscripciones a Curso</h2>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+    <table class="styled-table">
+        <thead>
+            <tr> 
+                <th>Grupo Inscritos </th>
+                <th>Estado</th>
+                <th>Fecha Inicial</th>
+                <th>Fecha Final</th>
+                <th>Precio Total</th>
+                <th>Pagado </th>
+                <th>Comprobante</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inscribe in inscribes %}
+            <tr>
+                <td class="azul">@{{ inscribe.id}}@ {{ inscribe.grupo }}</td>
+                <td>{{ inscribe.get_estado_display }}</td>
+                <td>{{ inscribe.fec_ini }}</td>
+                <td>{{ inscribe.fec_fin }}</td>
+                <td>${{ inscribe.preciototal }}</td>
+                <td>${{ inscribe.pagado }}</td>
+                <td>{{ inscribe.comprobante }}</td>
+                <td>pagos</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <table class="styled-table">
+        <thead>
+            <tr> 
+                <th>Grupos Disponibles</th>
+                <th>Clase</th>
+                <th>Precio</th>
+                <th>Duración</th>
+                <th>Hora Ini</th>
+                <th>Hora Fin</th>
+                <th>Dias</th>
+                <th>Fec. Ini</th>
+                <th>Fec. Fin</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grupo in grupos %}
+            <tr>
+                <td>{{ grupo.grupo }} {{ grupo.instructor}}</td>
+                <td>{{ grupo.clase }}</td>
+                <td>$ {{ grupo.preciounitario }}</td>
+                <td>{{ grupo.duracion }}</td>
+                <td>{{ grupo.horaInicio }}</td>
+                <td>{{ grupo.horaTermino }}</td>
+                <td>{{ grupo.dias_semana }}</td>
+                <td>{{ grupo.fec_ini }}</td>
+                <td>{{ grupo.fec_fin }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form|crispy }}
+    <button type="submit">Guardar Inscripción</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        console.log("jQuery cargado correctamente");
+
+        function actualizarPrecioTotal() {
+            var cantidad = parseFloat($('#id_cantidad').val()) || 0;
+            var precioUnitario = parseFloat($('#id_preciounitario').val()) || 0;
+            var precioTotal = cantidad * precioUnitario;
+            $('#id_preciototal').val(precioTotal.toFixed(2));
+        }
+
+        function actualizarFechaFin() {
+            var fecIni = $('#id_fec_ini').val();  // Obtener la fecha en formato "YYYY-MM-DD"
+            var cantidad = parseInt($('#id_cantidad').val(), 10) || 1;  // Si está vacío, usar 1
+            console.log("Fecha inicio ingresada:", fecIni);  // Verifica si la fecha de inicio se está obteniendo
+            console.log("Cantidad ingresada:", cantidad);  // Verifica si la cantidad se obtiene correctamente
+
+            if (fecIni) {
+                // Convertir la fecha "YYYY-MM-DD" a un objeto Date
+                var partesFecha = fecIni.split('-'); // Divide por "-"
+                var año = parseInt(partesFecha[0], 10);
+                var mes = parseInt(partesFecha[1], 10) - 1; // Meses en JS van de 0-11
+                var dia = parseInt(partesFecha[2], 10);
+
+                var fechaInicio = new Date(año, mes, dia);
+                console.log("Fecha convertida a objeto Date:", fechaInicio);  // Verifica si la conversión de fecha es correcta
+
+                // Sumar días (cantidad * 7)
+                fechaInicio.setDate(fechaInicio.getDate() + (cantidad * 7));
+
+                // Formatear la nueva fecha a "YYYY-MM-DD" (para mantener el formato adecuado para el campo de fecha)
+                var nuevoDia = ('0' + fechaInicio.getDate()).slice(-2);
+                var nuevoMes = ('0' + (fechaInicio.getMonth() + 1)).slice(-2); // Se suma 1 porque en JS los meses van de 0 a 11
+                var nuevoAño = fechaInicio.getFullYear();
+
+                var nuevaFechaFin = `${nuevoAño}-${nuevoMes}-${nuevoDia}`; // Formato "YYYY-MM-DD"
+                $('#id_fec_fin').val(nuevaFechaFin);  // Actualizar el campo fec_fin
+                console.log("Fecha fin calculada:", nuevaFechaFin);  // Verifica si la fecha de fin es correcta
+            }
+        }
+
+        // Evento cuando cambia el grupo
+        $("#id_grupo").change(function () {
+            var grupoId = $(this).val();
+            console.log("Grupo seleccionado:", grupoId);
+
+            if (grupoId) {
+                $.ajax({
+                    url: "/members/obtener_precio_grupo/",
+                    data: { 'grupo_id': grupoId },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log("Respuesta AJAX recibida:", data);
+
+                        if (data.error) {
+                            console.error("Error en la respuesta del servidor:", data.error);
+                        } else {
+                            $('#id_preciounitario').val(data.preciounitario);
+                            console.log("Datos actualizados en los campos.");
+                            actualizarPrecioTotal();  // Actualizar precio total cuando cambia el precio unitario
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error en la petición AJAX:", xhr.responseText);
+                    }
+                });
+            }
+        });
+
+        $('#id_cantidad').on('input', function() {
+            console.log('Cantidad cambiada:', $(this).val()); // Verifica el valor de la cantidad
+            actualizarFechaFin();
+        });
+
+
+        // Eventos en cantidad y precio unitario
+        $('#id_cantidad, #id_preciounitario').on('input', actualizarPrecioTotal);
+
+        // 🔥 Ejecutar cálculos al cargar la página
+        actualizarFechaFin();
+        actualizarPrecioTotal();
+
+    });
+</script>
+
+{% endblock %}
+

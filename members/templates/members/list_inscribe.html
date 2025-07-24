@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista Inscripciones{% endblock %}
+
+{% block content %}
+
+<h2>Listado de las Inscripciones en el Sistema</h2>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Miembro</th>
+            <th>Grupo</th>
+            <th>Estado</th>
+            <th>Fecha Inicial</th>
+            <th>Fecha Final</th>
+            <th>Cantidad</th>
+            <th>Precio Total</th>
+            <th>Pago Total </th>
+            <th>Saldo Disponible</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for inscribe in inscribes %}
+        <tr>
+            <td>{{ inscribe.id}} - {{ inscribe.member }}</td>
+            <td>{{ inscribe.grupo }}</td>
+            <td>{{ inscribe.get_estado_display }}</td>
+            <td>{{ inscribe.fec_ini }}</td>
+            <td>{{ inscribe.fec_fin }}</td>
+            <td>{{ inscribe.cantidad }}</td>
+            <td>${{ inscribe.preciototal }}</td>
+            <td>${{ inscribe.pagado }}</td>
+            <td>{{ inscribe.member.saldo }}</td>
+            <td class="{% if not inscribe.estatus %}rojo{% endif %}" >
+                {% if inscribe.estatus %}
+                Sí
+                {% else %}
+                No
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'inscripcion_editar' inscribe.id %}" class="btn btn-update">Actualiza</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'create_inscription' %}" class="{% if request.resolver_match.url_name == 'create_inscription' %}active{% endif %}">
+    <button type="submit" class="boton-negro">
+       Nueva Inscripción
+    </button>
+  </a>
+
+
+{% endblock %}
+
+          
+           
+       
+         
+         
+
+

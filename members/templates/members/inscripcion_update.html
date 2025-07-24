@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Inscripciones Validación{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<h2>Actualizacion de las Inscripciones</h2>
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form|crispy }}
+
+    <button type="submit">Actualizar </button>
+    <a href="{% url 'list_inscribes' %}" class="btn btn-cancel">Cancelar</a>
+</form>
+
+
+{% endblock %}
+

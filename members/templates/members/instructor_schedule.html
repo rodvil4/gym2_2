@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Horario Instructor{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<form method="POST">
+    {% csrf_token %}
+    <table style="width: 80%;">
+        <tr>
+            <th style="text-align: left;">    {{ form|crispy }}</th>
+            <th style="text-align: right;"> <button type="submit">Ver Horario</button> </th>
+        </tr>
+    </table>
+</form>
+
+{% if schedule %}
+    <table border="1" style="width: 80%; margin: auto; text-align: center;">
+        <thead>
+            <tr>
+                <th>Hora</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hour, days in schedule.items %}
+                <tr>
+                    <td>{{ hour }}:00 --> </td>
+                    {% for day, course in days.items %}
+                        <td class="{% if not class.estatus %}azul{% endif %}">{{ course }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+{% endblock %}

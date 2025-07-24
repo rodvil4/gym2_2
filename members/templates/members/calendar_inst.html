@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Horario del Instructor{% endblock %}
+
+{% block content %}
+<h2>Seleccione un Instructor para Ver su Horario</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Ver Horario</button>
+</form>
+
+{% if schedule %}
+    <h3>Horario del Instructor</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Hora</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hour, days in schedule.items %}
+                <tr>
+                    <td>{{ hour }}:00</td>
+                    {% for day, course in days.items %}
+                        <td>{{ course }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+{% endblock %}

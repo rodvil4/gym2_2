@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista Instructores{% endblock %}
+
+{% block content %}
+
+<h2>Listado de Instructores</h2>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Fec Nac.</th>
+            <th>Telefono</th>
+            <th>Estudios</th>
+            <th>Certificacion</th>
+            <th>Genero</th>
+            <th>Email</th>
+            <th>Direccion</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for instructor in instructors %}
+        <tr>
+            <td class="{% if not instructor.estatus %}rojo{% endif %}">{{ instructor.nombre }}</td>
+            <td>{{ instructor.fec_nac }}</td>
+            <td>{{ instructor.telefono }}</td>
+            <td>{{ instructor.estudios }}</td>
+            <td>{{ instructor.certificacion }}</td>
+            <td>{{ instructor.get_genero_display }}</td>
+            <td>{{ instructor.email }}</td>
+            <td>{{ instructor.direccion }}</td>
+            <td class="{% if not instructor.estatus %}rojo{% endif %}" >
+                {% if instructor.estatus %}
+                Sí
+                {% else %}
+                No
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'update_instructor' instructor.id %}" class="btn btn-update">Actualiza</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'create_instructor' %}" class="{% if request.resolver_match.url_name == 'create_instructor' %}active{% endif %}">
+    <button type="submit" class="boton-negro">
+       Nuevo Instructor
+    </button>
+  </a>
+{% endblock %}
+
+        
+   
+          
+           
+       
+         
+         
+
+

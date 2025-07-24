@@ -1,0 +1,57 @@
+{% extends 'base_cel.html' %}
+{% block title %}Actualiza Miembro{% endblock %}
+
+{% block content %}
+<div class="container form-container">
+    <h2>Actualizacion Datos Miembro</h2>
+
+    {% load crispy_forms_tags %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+    {% if form.errors %}
+        <div class="errors">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateField = document.querySelector('input[name="fec_nac"]');
+        const dateValue = '{{ member.fec_nac|date:"Y-m-d" }}';
+        if (dateField && dateValue) {
+            dateField.value = dateValue;
+        }
+    });
+
+    const telefonoInput = document.getElementById('telefono');
+    telefonoInput.addEventListener('input', function (e) {
+        const inputValue = e.target.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+        let formattedValue = '';
+
+        if (inputValue.length > 0) {
+            formattedValue += inputValue.slice(0, 2);
+            if (inputValue.length > 2) {
+                formattedValue += '-' + inputValue.slice(2, 6);
+            }
+            if (inputValue.length > 6) {
+                formattedValue += '-' + inputValue.slice(6, 10);
+            }
+        }
+
+        e.target.value = formattedValue;
+    });
+</script>
+{% endblock %}

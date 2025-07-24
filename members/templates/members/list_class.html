@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista Clases{% endblock %}
+
+{% block content %}
+
+<h2>Listado de Clases</h2>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Descibe</th>
+            <th>Duracion</th>
+            <th>Requisitos</th>
+            <th>Observa</th>
+            <th>Minimo</th>
+            <th>Maximo</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for class in classes %}
+        <tr>
+            <td class="{% if not class.estatus %}rojo{% endif %}">{{ class.describe }}</td>
+            <td>{{ class.duracion }} min</td>
+            <td>{{ class.requisitos }}</td>
+            <td>{{ class.observa }}</td>
+            <td>{{ class.minimo }}</td>
+            <td>{{ class.maximo }}</td>
+            <td class="{% if not class.estatus %}rojo{% endif %}" >
+                {% if class.estatus %}
+                Sí
+                {% else %}
+                No
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'update_class' class.id %}" class="btn btn-update">Actualiza</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'create_class' %}" class="{% if request.resolver_match.url_name == 'create_class' %}active{% endif %}">
+    <button type="submit" class="boton-negro">
+       Nueva Clase
+    </button>
+  </a>
+{% endblock %}
+
+        
+   
+          
+           
+       
+         
+         
+
+

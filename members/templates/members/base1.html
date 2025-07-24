@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Site{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>Sistema Control Calendario (members)</h1>
+        </div>
+        <div class="header-right">
+            <p>{{ user.username }}</p>
+            <p id="date"></p>
+        </div>
+    </header>
+    <main>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% if member %}
+                        <li><a href="{% url 'update_member' %}">Update Member</a></li>
+                    {% else %}
+                        <li><a href="{% url 'register_member' %}">Register Member</a></li>
+                    {% endif %}
+                {% else %}
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    <script>
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        const date = new Date();
+        const formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} - ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+        document.getElementById('date').innerText = formattedDate;
+    </script>
+</body>
+</html>
